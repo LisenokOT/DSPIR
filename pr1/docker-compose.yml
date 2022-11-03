@@ -1,0 +1,21 @@
+version: '3' # версия Docker
+
+services: # Контецнеры, которые запускаем
+
+  php: # Имя контейнера
+    build: # Процесс билдинга
+      ./php
+    ports: # Порты устройство:docker
+      - 9000:80
+    volumes: # Связываем папку с устройства с папкой на виртуальной машине
+      - ./www:/var/www/html
+    depends_on: # Зависимость, после чего запускаем
+      - datab
+
+  datab: # Имя контейнера
+    image: mariadb:latest # Образ бд
+    restart: always # Поведение при краше
+    volumes: # Связываем папку с устройства с папкой на виртуальной машине
+      - "./sql:/docker-entrypoint-initdb.d"
+    environment:
+      MARIADB_ROOT_PASSWORD: password

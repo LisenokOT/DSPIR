@@ -1,0 +1,33 @@
+version: '3' # версия Docker
+
+services: # Контецнеры, которые запускаем
+
+  datab: # Имя контейнера
+    image: mariadb:latest # Образ бд
+    restart: always # Поведение при краше
+    volumes: # Связываем папку с устройства с папкой на виртуальной машине
+      - "./sql:/docker-entrypoint-initdb.d"
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+
+  php: # Имя контейнера
+    build: # Процесс билдинга
+      ./php
+    hostname: apache.php
+    volumes:
+      - ./www/dinamic:/var/www/dinamic
+      - ./php/ports.conf:/etc/apache2/ports.conf
+      - ./php/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    depends_on: # Зависимость, после чего запускаем
+      - datab
+
+  nginx: # Имя контейнера
+    image: nginx:latest
+    restart: always # Поведение при краше
+    ports:
+    - 8080:8080
+    volumes:
+    - ./www/static:/usr/share/olga/
+    - ./default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+    - datab # запустится после базы данных.
