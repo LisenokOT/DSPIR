@@ -31,7 +31,7 @@ catch (Exception $e) {
 };
 
 function addMaterial() {
-    $data = json_decode(file_get_contents('php://input'));
+    $data = json_decode(file_get_contents('php://input'), True);
     if (!isset($data['name']) || !isset($data['price'])) {
         throw new Exception("No input provided");
     }
@@ -53,7 +53,7 @@ function addMaterial() {
 }
 function removeMaterial()
 {
-    $data = json_decode(file_get_contents('php://input'), true);
+    $data = json_decode(file_get_contents('php://input'), True);
     if (!isset($data['name'])) {
         throw new Exception("No input provided");
     }
@@ -73,19 +73,19 @@ function removeMaterial()
 }
 function updateMaterialPrice()
 {
-    $data = json_decode(file_get_contents('php://input'), true);
-    if (!isset($data['name']) || !isset($data['password'])) {
+    $data = json_decode(file_get_contents('php://input'), True);
+    if (!isset($data['name']) || !isset($data['price'])) {
         throw new Exception("No input provided");
     }
     $mysqli = openMysqli();
     $subName = $data['name'];
-    $subAuditorium = $data['auditorium'];
+    $subPrice= $data['price'];
     $result = $mysqli->query("SELECT * FROM home WHERE name = '{$subName}';");
     if ($result->num_rows === 1) {
-        $query = "UPDATE home SET auditorium = '" . $subAuditorium . "' WHERE name = '" . $subName . "';";
+        $query = "UPDATE home SET price = '" . $subPrice . "' WHERE name = '" . $subName . "';";
         $mysqli->query($query);
         $mysqli->close();
-        $message = 'Changed auditorium for ' . $subName;
+        $message = 'Changed price for ' . $subName;
         outputStatus(0, $message);
     } else {
         $message = $subName . ' does not exist';
@@ -102,7 +102,7 @@ function getMaterialByID()
     $result = $mysqli->query("SELECT * FROM home WHERE ID = '{$subID}';");
     if ($result->num_rows === 1) {
         foreach ($result as $info) {
-            echo "{status: 0, name: '" . $info['name'] . "}";
+            echo "{status: 0, name: '" . $info['name'] . "'; price: '" . $info['price'] . "'}";
         }
         $mysqli->close();
     } else {
