@@ -9,7 +9,7 @@
     <tr><th>Id</th><th>Name</th><th>Password</th></tr>
 <?php
 $mysqli = new mysqli("datab", "user", "password", "appDB");
-$result = $mysqli->query("SELECT * FROM users_table");
+$result = $mysqli->query("SELECT * FROM users");
 echo "<p>$result->num_rows</p>";
 foreach ($result as $row){
     echo "<tr><td>{$row['ID']}</td><td>{$row['name']}</td><td>{$row['password']}</td></tr>";
