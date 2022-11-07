@@ -3,6 +3,7 @@ version: '3' # версия Docker
 services: # Контецнеры, которые запускаем
 
   datab: # Имя контейнера
+    container_name: mysql
     image: mariadb:latest # Образ бд
     restart: always # Поведение при краше
     volumes: # Связываем папку с устройства с папкой на виртуальной машине

@@ -4,24 +4,22 @@ GRANT SELECT,UPDATE,INSERT ON appDB.* TO 'user'@'%';
 FLUSH PRIVILEGES;
 
 USE appDB;
-CREATE TABLE IF NOT EXISTS users_table (
-  ID INT(11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR(20) NOT NULL,
-  password INT(40) NOT NULL,
-  PRIMARY KEY (ID)
-);
+CREATE TABLE IF NOT EXISTS users (
+    ID INT(11) NOT NULL AUTO_INCREMENT,
+    name CHAR(20) NOT NULL UNIQUE,
+    password CHAR(40) NOT NULL,
+    PRIMARY KEY (ID)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
-INSERT INTO users_table (name, password)
-SELECT * FROM (SELECT 'olga', '2001') AS tmp
-WHERE NOT EXISTS (
-    SELECT name FROM users_table WHERE name = 'brick' AND password = '20'
-) LIMIT 1;
-
-INSERT INTO users_table (name, password)
-SELECT * FROM (SELECT 'user_name', '0000') AS tmp
-WHERE NOT EXISTS (
-    SELECT name FROM users_table WHERE name = 'nails' AND password = '100'
-) LIMIT 1;
+INSERT INTO users (name, password)
+VALUES (
+        'user',
+        '$apr1$grvypz8k$oJpy7R2cVlIcg34pGWFUF0' -- password
+    ),
+    (
+        'olga',
+        '$apr1$fxhg32sw$P5ntwL/w0aDwi.uFK4AS//' -- 3110
+    );
 
 
 USE appDB;

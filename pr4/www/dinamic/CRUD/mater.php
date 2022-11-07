@@ -1,18 +1,25 @@
-<?php 
-$meth = $_SERVER['REQUEST_METHOD'];
+<?php
+function openmysqli(): mysqli {
+    $connection = new mysqli('mysql', 'user', 'password', 'appDB');
+    return $connection;
+}
+function outputStatus($status, $message)
+{
+    echo '{status: ' . $status . ', message: "' . $message . '"}';
+}
 try {
-    switch ($meth) {
+    switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST':
-            addItem();
+            addMaterial();
             break;
         case 'DELETE':
-            removeItemByName();
+            removeMaterial();
             break;
         case 'PATCH':
-            updateItemCostByName();
+            updateMaterialPrice();
             break;
         case 'GET':
-            getItemByName();
+            getMaterialByID();
             break;
         default:
             outputStatus(2, 'Invalid Mode');
@@ -21,101 +28,85 @@ try {
 catch (Exception $e) {
     $message = $e->getMessage();
     outputStatus(2, $message);
-}
+};
 
-function openmysqli(): mysqli {
-    $connection = new mysqli('datab', 'user', 'password', 'appDB');
-    return $connection;
-}
-function outputStatus($status, $message)
-{
-    echo '{status: ' . $status . ', message: "' . $message . '"}';
-}
-
-function addItem()
-{
-    $data = file_get_contents('php://input');
-    $data = json_decode($data, true);
-    if (!isset($data['name']) || !isset($data['cost']) || !isset($data['desc'])) {
+function addMaterial() {
+    $data = json_decode(file_get_contents('php://input'));
+    if (!isset($data['name']) || !isset($data['price'])) {
         throw new Exception("No input provided");
     }
-    $toyName = $data['name'];
-    $toyDesc = $data['desc'];
-    $toyCost = $data['cost'];
     $mysqli = openMysqli();
-    $result = $mysqli->query("SELECT * FROM toys WHERE title = '{$toyName}';");
+    $subName = $data['name'];
+    $subPrice = $data['price'];
+    $result = $mysqli->query("SELECT * FROM home WHERE name = '{$subName}';");
     if ($result->num_rows === 1) {
-        $message = $toyName . ' already exists';
+        $message = 'material '. $subName . ' already exists';
         outputStatus(1, $message);
-    }
-    else {
-    $query = "INSERT INTO toys (title, description, cost)
-        VALUES ('" . $toyName . "', '" . $toyDesc . "', " . $toyCost . ");";
+    } else {
+        $query = "INSERT INTO home (name, price)
+        VALUES ('" . $subName . "', '" . $subPrice . "');";
         $mysqli->query($query);
         $mysqli->close();
-        $message = 'Added ' . $toyName . ' with cost of ' . $toyCost;
+        $message = 'Added material ' . $subName;
         outputStatus(0, $message);
     }
 }
-function removeItemByName()
+function removeMaterial()
 {
-    $data = file_get_contents('php://input');
-    $data = json_decode($data, true);
+    $data = json_decode(file_get_contents('php://input'), true);
     if (!isset($data['name'])) {
         throw new Exception("No input provided");
     }
     $mysqli = openMysqli();
-    $toyName = $data['name'];
-    $result = $mysqli->query("SELECT * FROM toys WHERE title = '{$toyName}';");
+    $subName = $data['name'];
+    $result = $mysqli->query("SELECT * FROM home WHERE name = '{$subName}';");
     if ($result->num_rows === 1) {
-        $query = "DELETE FROM toys WHERE title = '" . $toyName . "';";
+        $query = "DELETE FROM home WHERE name = '" . $subName . "';";
         $mysqli->query($query);
         $mysqli->close();
-        $message = 'Removed ' . $toyName;
+        $message = 'Removed subject ' . $subName;
         outputStatus(0, $message);
     } else {
-        $message = $toyName . ' does not exist';
+        $message = 'Material ' . $subName . ' does not exist';
         outputStatus(1, $message);
     }
 }
-function updateItemCostByName()
+function updateMaterialPrice()
 {
-    $data = file_get_contents('php://input');
-    $data = json_decode($data, true);
-    if (!isset($data['name']) || !isset($data['cost'])) {
+    $data = json_decode(file_get_contents('php://input'), true);
+    if (!isset($data['name']) || !isset($data['password'])) {
         throw new Exception("No input provided");
     }
     $mysqli = openMysqli();
-    $toyName = $data['name'];
-    $toyCost = $data['cost'];
-    $result = $mysqli->query("SELECT * FROM toys WHERE title = '{$toyName}';");
+    $subName = $data['name'];
+    $subAuditorium = $data['auditorium'];
+    $result = $mysqli->query("SELECT * FROM home WHERE name = '{$subName}';");
     if ($result->num_rows === 1) {
-        $query = "UPDATE toys SET cost = " . $toyCost . " WHERE title = '" . $toyName . "';";
+        $query = "UPDATE home SET auditorium = '" . $subAuditorium . "' WHERE name = '" . $subName . "';";
         $mysqli->query($query);
         $mysqli->close();
-        $message = 'Updated ' . $toyName . ' with cost of ' . $toyCost;
+        $message = 'Changed auditorium for ' . $subName;
         outputStatus(0, $message);
     } else {
-        $message = $toyName . ' does not exist';
+        $message = $subName . ' does not exist';
         outputStatus(1, $message);
     }
 }
-function getItemByName()
+function getMaterialByID()
 {
-    if (!isset($_GET['name'])) {
+    if (!isset($_GET['id'])) {
         throw new Exception("No input provided");
     }
     $mysqli = openMysqli();
-    $toyName = $_GET['name'];
-    $query = "SELECT * FROM toys WHERE title = '{$toyName}';";
-    $result = $mysqli->query($query);
+    $subID = $_GET['id'];
+    $result = $mysqli->query("SELECT * FROM home WHERE ID = '{$subID}';");
     if ($result->num_rows === 1) {
-        foreach ($result as $toy) {
-            echo "{status: 0, name: '" . $toy['title'] . "', description: '" . $toy['description'] . "', cost: " . $toy['cost'] . "}";
+        foreach ($result as $info) {
+            echo "{status: 0, name: '" . $info['name'] . "}";
         }
         $mysqli->close();
     } else {
-        $message = $toyName . ' does not exist';
+        $message = 'Material ID '. $subID . ' does not exist';
         outputStatus(1, $message);
     }
 }

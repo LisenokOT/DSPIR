@@ -1,7 +1,14 @@
 <?php
-$meth = $_SERVER['REQUEST_METHOD'];
+function openmysqli(): mysqli {
+    $connection = new mysqli('mysql', 'user', 'password', 'appDB');
+    return $connection;
+}
+function outputStatus($status, $message)
+{
+    echo '{status: ' . $status . ', message: "' . $message . '"}';
+}
 try {
-    switch ($meth) {
+    switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST':
             addUser();
             break;
@@ -23,24 +30,15 @@ catch (Exception $e) {
     outputStatus(2, $message);
 };
 
-function openmysqli(): mysqli {
-    $connection = new mysqli('datab', 'user', 'password', 'appDB');
-    return $connection;
-}
-function outputStatus($status, $message)
-{
-    echo '{status: ' . $status . ', message: "' . $message . '"}';
-}
-
 function addUser() {
-    $data = file_get_contents('php://input');
-    $data = json_decode($data, true);
-    if (!isset($data['name']) || !isset($data['pass'])) {
+    $data = json_decode(file_get_contents('php://input'), True);
+    
+    if (!isset($data['name']) || !isset($data['password'])) {
         throw new Exception("No input provided");
     }
     $mysqli = openMysqli();
     $usrName = $data['name'];
-    $usrPass = $data['pass'];
+    $usrPass = $data['password'];
     $result = $mysqli->query("SELECT * FROM users WHERE name = '{$usrName}';");
     if ($result->num_rows === 1) {
         $message = 'User '. $usrName . ' already exists';
@@ -57,8 +55,7 @@ function addUser() {
 }
 function removeUser()
 {
-    $data = file_get_contents('php://input');
-    $data = json_decode($data, true);
+    $data = json_decode(file_get_contents('php://input'), true);
     if (!isset($data['name'])) {
         throw new Exception("No input provided");
     }
@@ -78,14 +75,13 @@ function removeUser()
 }
 function updateUserPassword()
 {
-    $data = file_get_contents('php://input');
-    $data = json_decode($data, true);
-    if (!isset($data['name']) || !isset($data['pass'])) {
+    $data = json_decode(file_get_contents('php://input'), true);
+    if (!isset($data['name']) || !isset($data['password'])) {
         throw new Exception("No input provided");
     }
     $mysqli = openMysqli();
     $usrName = $data['name'];
-    $usrPass = $data['pass'];
+    $usrPass = $data['password'];
     $result = $mysqli->query("SELECT * FROM users WHERE name = '{$usrName}';");
     if ($result->num_rows === 1) {
         $usrPass = generatePass($usrName, $usrPass);
@@ -124,3 +120,4 @@ function generatePass($usrName, $usrPass) {
     $str = preg_replace('/^' . $usrName . ':/', '', $str);
     return $str;
 }
+?>
