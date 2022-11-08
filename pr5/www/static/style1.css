@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    font-family: sans-serif;
+    background: #6888b8;
+    color: white;
+}
+header, nav, section, .content-container, footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gradient-card,
+.box-1-1 > .gradient-card {
+  box-shadow: 5px 5px 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* ========== Меню ==========*/
+header{
+    justify-content: space-between;
+    display: flex;
+    height: 10vh;
+    width: 100%;
+    padding: 1em 8em;
+    background: #161a20;
+    box-shadow: 0 5px 20px 5px rgba(0, 0, 0, .3);
+}
+#logo{
+    width: 50px;
+    transition: .3s;
+}
+nav{
+    justify-content: space-between;
+    width: 40%;
+}
+nav a{
+    text-decoration: none;
+    color: #fff;
+    padding: 1em 2em;
+    border: 1px solid transparent;
+    border-radius: .3em;
+    transition: .3s;
+}
+
+
+/* ========== Секции ==========*/
+section{
+    display: flex;
+    width: 100%;
+    height: 75.3vh;
+}
+.content-container{
+    gap: 10em;
+    max-width: 80%;
+}
+#home {
+  justify-content: space-evenly;
+}
+.gradient-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: 900;
+  padding: 3em;
+  border-radius: 1.5em;
+  background: linear-gradient(to bottom left, #e62fb0, #fa610b);
+}
+h1, h2, h3{
+    font-size: 3rem;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+}
+h2{font-size: 2rem;} 
+h3{
+    font-size: 2rem;
+    text-align: center;
+} 
+span{color: #F05454;}
+.text-container{max-width: 40%;}
+
+table{
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+}
+/* ========== Подвал ==========*/
+footer{
+    display: flex;
+    height: 10vh;
+    background: #262b33;
+    padding: 3em;
+}
