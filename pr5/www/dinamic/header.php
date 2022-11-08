@@ -13,9 +13,8 @@
         <nav>
             <a href="http://localhost:8080/index.html">Главная</a>
             <a href="http://localhost:8080/str2.html">Раздел общий</a>
-            <a href="http://localhost:8080/dinamic_1.php">Раздел 1</a>
-            <a href="http://localhost:8080/dinamic_2.php">Раздел 2</a>
-            <a href="http://localhost:8080/admin/admin.php">Админ панель</a>
+            <a href="dinamic_1.php">Раздел 1</a>
+            <a href="dinamic_2.php">Раздел 2</a>
             <a href="http://localhost:8080/downloader/personal.php">Работа с файлами</a>
             <a id="lang-button">Сменить язык</a>
         </nav>
