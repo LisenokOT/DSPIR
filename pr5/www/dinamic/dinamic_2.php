@@ -1,4 +1,3 @@
-<!-- хедер (header.php) -->
 <?php
 if (!isset($_COOKIE["lang"])) {
     $_COOKIE["lang"] = "ru";
