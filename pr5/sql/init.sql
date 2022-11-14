@@ -59,3 +59,29 @@ SELECT * FROM (SELECT 'watering cans', '150') AS tmp
 WHERE NOT EXISTS (
     SELECT name FROM home WHERE name = 'watering cans' AND price = '150'
 ) LIMIT 1;
+
+USE appDB;
+CREATE TABLE IF NOT EXISTS material (
+  ID INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(20) NOT NULL,
+  price INT(40) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+INSERT INTO material (name, price)
+SELECT * FROM (SELECT 'broomstick', '200') AS tmp
+WHERE NOT EXISTS (
+    SELECT name FROM material WHERE name = 'broomstick' AND price = '350'
+) LIMIT 1;
+
+INSERT INTO material (name, price)
+SELECT * FROM (SELECT 'stone', '350') AS tmp
+WHERE NOT EXISTS (
+    SELECT name FROM material WHERE name = 'broomstick' AND price = '350'
+) LIMIT 1;
+
+INSERT INTO material (name, price)
+SELECT * FROM (SELECT 'hoses', '310') AS tmp
+WHERE NOT EXISTS (
+    SELECT name FROM material WHERE name = 'broomstick' AND price = '350'
+) LIMIT 1;

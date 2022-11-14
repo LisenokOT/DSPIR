@@ -20,6 +20,7 @@ services: # Контецнеры, которые запускаем
       - ./www/dinamic:/var/www/dinamic
       - ./php/ports.conf:/etc/apache2/ports.conf
       - ./php/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./php/php.ini:/usr/local/etc/php/php.ini
     depends_on: # Зависимость, после чего запускаем
       - datab
 

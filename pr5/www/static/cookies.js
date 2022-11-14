@@ -1,5 +1,7 @@
 const lang_btn = document.getElementById("lang-button");
+const them_btn = document.getElementById("thema-button");
 let currentLanguage = getCookie("lang");
+let currentThema = getCookie("theme");
 
 lang_btn.addEventListener("click", function () {
     if (currentLanguage == "ru") {
@@ -9,6 +11,17 @@ lang_btn.addEventListener("click", function () {
     }
     console.log(currentLanguage);
     setCookie("lang", currentLanguage);
+    location.reload();
+})
+
+them_btn.addEventListener("click", function () {
+    if (currentThema == "tem") {
+        currentThema = "sv";
+    } else {
+        currentThema = "tem";
+    }
+    console.log(currentThema);
+    setCookie("theme", currentThema);
     location.reload();
 })
 

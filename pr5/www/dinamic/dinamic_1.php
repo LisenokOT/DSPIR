@@ -9,13 +9,13 @@ if ($_COOKIE["lang"] == "en") {
 else{
     $title = "Динамическая страница 1";
     include ("header.php");
-    echo "<h3>Пользователи</h3>
+    echo "<h3>Материалы</h3>
     <table>
         <tr><th>Id</th><th>Имя</th><th>Пароль</th></tr>";
         $mysqli = new mysqli("datab", "user", "password", "appDB");
-        $result = $mysqli->query("SELECT * FROM users");
+        $result = $mysqli->query("SELECT * FROM material");
         foreach ($result as $row){
-            echo "<tr><td>{$row['ID']}</td><td>{$row['name']}</td><td>{$row['password']}</td></tr>";
+        echo "<tr><td>{$row['ID']}</td><td>{$row['name']}</td><td>{$row['price']}</td></tr>";
         }
     echo "</table>";
     include ("footer.php");
