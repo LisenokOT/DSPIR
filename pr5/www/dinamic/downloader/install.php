@@ -9,7 +9,16 @@ if ($ext != "pdf") {
     echo "Это не pdf файл!!! Выберите  pdf для загрузки";
 } else {
     if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-        echo "Файл корректен и был успешно загружен.\n";
+        exec('file ' . $uploadfile, $ext);
+        $status = strripos($ext[0], 'pdf document');
+        if ($status == True){
+            echo "Файл корректен и был успешно загружен.\n";
+        }
+        else {
+            $temp = array();
+            exec('rm ' . $uploadfile, $temp);
+            echo "<h3>Это не pdf файл!</h3>";
+        }
     }
 }
 

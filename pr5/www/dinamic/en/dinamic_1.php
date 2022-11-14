@@ -1,4 +1,3 @@
-<!-- хедер (header.php) -->
 <?php
     $title = "Page 1";
     include ("en/header.php");
