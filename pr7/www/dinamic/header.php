@@ -7,7 +7,7 @@ if (!empty($_COOKIE['theme']) && $_COOKIE['theme'] == 'tem') {
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?$title?></title>
+        <title><?echo $title?></title>
         <meta charset="UTF-8">
         <meta name="author" content="Тарарина Ольга">
         <meta name="description" content="practic3">
