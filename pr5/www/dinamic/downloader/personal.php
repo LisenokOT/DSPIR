@@ -1,4 +1,3 @@
-<!-- хедер (header.php) -->
 <?php
     $title = "PDF";
     include ("../header.php");
